@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Panel Administrativo</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <header class="header-admin">
+
+            <h1>🎓 HelpCenter Estudiantil</h1>
+
+            <h2 id="bienvenida">
+                Bienvenido Administrador
+            </h2>
+
+            <p class="subtitulo">
+                Sistema de gestión de tickets y soporte técnico
+            </p>
+
+        </header>
+
+        <!-- =========================
+             ESTADÍSTICAS
+        ========================== -->
+
+        <section class="estadisticas">
+
+            <div class="stat-card">
+
+                <h3>🎫 Tickets</h3>
+
+                <p id="totalTickets">
+                    0
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>👤 Usuarios</h3>
+
+                <p id="totalUsuarios">
+                    0
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>🔴 Prioridad alta</h3>
+
+                <p id="ticketsAlta">
+                    0
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>🟢 Abiertos</h3>
+
+                <p id="ticketsAbiertos">
+                    0
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>⚫ Cerrados</h3>
+
+                <p id="ticketsCerrados">
+                    0
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- =========================
+             MENÚ
+        ========================== -->
+
+        <section class="menu">
+
+            <button onclick="cargarTickets()">
+                🎫 Ver tickets
+            </button>
+
+            <button onclick="cargarUsuarios()">
+                👤 Ver usuarios
+            </button>
+
+            <button onclick="logout()">
+                🚪 Cerrar sesión
+            </button>
+
+        </section>
+
+        <!-- =========================
+             BUSCADOR
+        ========================== -->
+
+        <section class="busqueda">
+
+            <input
+                type="text"
+                id="buscador"
+                placeholder="🔎 Buscar ticket por título..."
+            >
+
+        </section>
+
+        <!-- =========================
+             MENSAJES
+        ========================== -->
+
+        <p id="mensaje"></p>
+
+        <!-- =========================
+             CONTENIDO DINÁMICO
+        ========================== -->
+
+        <main id="contenido"></main>
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <footer>
+
+            <p>
+                HelpCenter Estudiantil © 2026
+            </p>
+
+            <p>
+                Panel administrativo | Sistemas Computacionales
+            </p>
+
+        </footer>
+
+    </div>
+
+    <script src="admin.js"></script>
+
+</body>
+
+</html>

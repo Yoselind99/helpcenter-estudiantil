@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Help Center - Tickets</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <h1>HelpCenter Estudiantil</h1>
+
+    <h2>
+        Bienvenido Usuario
+    </h2>
+
+    <!-- =========================
+         BOTONES
+    ========================== -->
+
+    <button onclick="logout()">
+        Cerrar sesión
+    </button>
+
+    <button onclick="cargarTickets()">
+        Cargar Tickets
+    </button>
+
+    <br><br>
+
+    <!-- =========================
+         LISTA TICKETS
+    ========================== -->
+
+    <ul id="listaTickets">
+    </ul>
+
+    <hr>
+
+    <!-- =========================
+         FORMULARIO
+    ========================== -->
+
+    <h2>Crear Ticket</h2>
+
+    <p id="mensaje"></p>
+
+    <form id="formTicket">
+
+        <!-- TÍTULO -->
+
+        <label>Título:</label><br>
+
+        <input 
+            type="text" 
+            id="title" 
+            placeholder="Título del ticket"
+            required
+        >
+
+        <br><br>
+
+        <!-- DESCRIPCIÓN -->
+
+        <label>Descripción:</label><br>
+
+        <textarea 
+            id="descripcion"
+            placeholder="Describe el problema"
+            required
+        ></textarea>
+
+        <br><br>
+
+        <!-- PRIORIDAD -->
+
+        <label>Prioridad:</label><br>
+
+        <select id="prioridad">
+
+            <option value="baja">
+                Baja
+            </option>
+
+            <option value="media">
+                Media
+            </option>
+
+            <option value="alta">
+                Alta
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <!-- BOTÓN -->
+
+        <button type="submit">
+            Crear Ticket
+        </button>
+
+    </form>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
