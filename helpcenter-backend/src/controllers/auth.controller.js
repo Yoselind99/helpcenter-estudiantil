@@ -23,9 +23,10 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const usuario = usuarios.find(u => u.email === email);
-
   console.log("EMAIL RECIBIDO:", email);
 console.log("USUARIOS:", usuarios);
+console.log("USUARIO ENCONTRADO:", usuario);
+
   if (!usuario) {
     return res.status(401).json({
       error: 'Credenciales incorrectas'
