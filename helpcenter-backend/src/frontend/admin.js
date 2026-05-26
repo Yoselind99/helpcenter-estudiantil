@@ -12,8 +12,8 @@ if (!token) {
 
 }
 
-const API_TICKETS = " https://helpcenter-estudiantil.onrender.com/tickets";
-const API_USERS = " https://helpcenter-estudiantil.onrender.com/users";
+const API_TICKETS = "https://helpcenter-estudiantil.onrender.com/tickets";
+const API_USERS = "https://helpcenter-estudiantil.onrender.com/users";
 
 // ======================================
 // VARIABLES
@@ -304,7 +304,7 @@ async function cambiarEstado(id, estado) {
 
         const response = await fetch(
 
-            `http://localhost:3000/tickets/${id}/estado`,
+            `https://helpcenter-estudiantil.onrender.com/tickets/${id}/estado`,
 
             {
 

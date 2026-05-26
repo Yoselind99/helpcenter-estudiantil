@@ -1,5 +1,36 @@
-const db = require('../config/db');
 const bcrypt = require('bcrypt');
+
+// ======================================
+// USUARIOS TEMPORALES
+// ======================================
+
+let usuarios = [
+
+  {
+    id_usuario: 1,
+    nombre: 'Admin',
+    email: 'admin@test.com',
+    password: 'password',
+    rol: 'admin'
+  },
+
+  {
+    id_usuario: 2,
+    nombre: 'Usuario',
+    email: 'user@test.com',
+    password: 'password',
+    rol: 'usuario'
+  },
+
+  {
+    id_usuario: 3,
+    nombre: 'Soporte',
+    email: 'soporte@test.com',
+    password: 'password',
+    rol: 'tecnico'
+  }
+
+];
 
 // ======================================
 // REGISTRAR USUARIO
@@ -13,7 +44,6 @@ const registerUser = async (req, res) => {
 
   try {
 
-    // 🔹 Validar nombre
     if (!nombre || nombre.trim().length < 3) {
 
       return res.status(400).json({
@@ -22,7 +52,6 @@ const registerUser = async (req, res) => {
 
     }
 
-    // 🔹 Validar email
     if (!email || !email.includes('@')) {
 
       return res.status(400).json({
@@ -31,7 +60,6 @@ const registerUser = async (req, res) => {
 
     }
 
-    // 🔹 Validar password
     if (!password || password.length < 6) {
 
       return res.status(400).json({
@@ -40,7 +68,6 @@ const registerUser = async (req, res) => {
 
     }
 
-    // 🔹 Validar rol
     if (!rol || !rolesValidos.includes(rol)) {
 
       return res.status(400).json({
@@ -49,39 +76,31 @@ const registerUser = async (req, res) => {
 
     }
 
-    // 🔹 Encriptar contraseña
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const nuevoUsuario = {
 
-    const query = `
-      INSERT INTO usuarios
-      (nombre, email, password, rol)
-      VALUES (?, ?, ?, ?)
-    `;
+      id_usuario: usuarios.length + 1,
 
-    db.query(
-      query,
-      [nombre, email, hashedPassword, rol],
-      (err, result) => {
+      nombre,
 
-        if (err) {
+      email,
 
-          return res.status(500).json({
-            error: 'Error al registrar usuario'
-          });
+      password,
 
-        }
+      rol
 
-        res.json({
-          message: 'Usuario registrado correctamente'
-        });
+    };
 
-      }
-    );
+    usuarios.push(nuevoUsuario);
+
+    res.json({
+      message: 'Usuario registrado correctamente',
+      user: nuevoUsuario
+    });
 
   } catch (error) {
 
     res.status(500).json({
-      error: 'Error al encriptar contraseña'
+      error: 'Error al registrar usuario'
     });
 
   }
@@ -94,29 +113,11 @@ const registerUser = async (req, res) => {
 
 const getUsers = (req, res) => {
 
-  const query = `
-    SELECT 
-      id_usuario,
-      nombre,
-      email,
-      rol
-    FROM usuarios
-  `;
+  res.json({
 
-  db.query(query, (err, results) => {
+    message: 'Usuarios obtenidos correctamente',
 
-    if (err) {
-
-      return res.status(500).json({
-        error: 'Error al obtener usuarios'
-      });
-
-    }
-
-    res.json({
-      message: 'Usuarios obtenidos correctamente',
-      data: results
-    });
+    data: usuarios
 
   });
 
