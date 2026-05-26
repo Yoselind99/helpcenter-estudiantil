@@ -369,4 +369,4 @@ function logout() {
 // AUTO CARGAR
 // ======================================
 
-cargarTickets();
+cargarUsuarios();
