@@ -19,6 +19,15 @@ const API_URL = "https://helpcenter-estudiantil.onrender.com/tickets";
 // ===============================
 
 async function cargarTickets() {
+    const rol = localStorage.getItem("rol");
+
+if (rol !== "admin") {
+
+    alert("Acceso denegado");
+
+    return;
+
+}
 
     try {
 
