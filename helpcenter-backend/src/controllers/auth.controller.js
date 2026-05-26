@@ -1,118 +1,63 @@
-const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-// ======================================
-// LOGIN
-// ======================================
+// Usuarios temporales
+const usuarios = [
+  {
+    id_usuario: 1,
+    nombre: 'Admin',
+    email: 'admin@test.com',
+    password: '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+    rol: 'admin'
+  },
+  {
+    id_usuario: 2,
+    nombre: 'Usuario',
+    email: 'user@test.com',
+    password: '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+    rol: 'usuario'
+  }
+];
 
-const login = (req, res) => {
+const login = async (req, res) => {
 
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    const query = `
-        SELECT * 
-        FROM usuarios 
-        WHERE email = ?
-    `;
+  const usuario = usuarios.find(u => u.email === email);
 
-    db.query(query, [email], async (err, results) => {
-
-        // ======================================
-        // ERROR SERVIDOR
-        // ======================================
-
-        if (err) {
-
-            console.log(err);
-
-            return res.status(500).json({
-                error: 'Error en servidor'
-            });
-
-        }
-
-        // ======================================
-        // USUARIO NO EXISTE
-        // ======================================
-
-        if (results.length === 0) {
-
-            return res.status(401).json({
-                error: 'Credenciales incorrectas'
-            });
-
-        }
-
-        // ======================================
-        // USUARIO ENCONTRADO
-        // ======================================
-
-        const usuario = results[0];
-
-        // ======================================
-        // VALIDAR PASSWORD
-        // ======================================
-
-        const passwordValida = await bcrypt.compare(
-            password,
-            usuario.password
-        );
-
-        if (!passwordValida) {
-
-            return res.status(401).json({
-                error: 'Contraseña incorrecta'
-            });
-
-        }
-
-        // ======================================
-        // GENERAR TOKEN
-        // ======================================
-
-        const token = jwt.sign(
-
-            {
-                id: usuario.id_usuario,
-                rol: usuario.rol
-            },
-
-            process.env.JWT_SECRET,
-
-            {
-                expiresIn: '1h'
-            }
-
-        );
-
-        // ======================================
-        // RESPUESTA LOGIN
-        // ======================================
-
-        res.json({
-
-            message: 'Login exitoso',
-
-            token,
-
-            rol: usuario.rol,
-
-            user: {
-
-                id: usuario.id_usuario,
-
-                nombre: usuario.nombre,
-
-                email: usuario.email,
-
-                rol: usuario.rol
-
-            }
-
-        });
-
+  if (!usuario) {
+    return res.status(401).json({
+      error: 'Credenciales incorrectas'
     });
+  }
+
+  const passwordValida = await bcrypt.compare(
+    password,
+    usuario.password
+  );
+
+  if (!passwordValida) {
+    return res.status(401).json({
+      error: 'Contraseña incorrecta'
+    });
+  }
+
+  const token = jwt.sign(
+    {
+      id: usuario.id_usuario,
+      rol: usuario.rol
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '1h'
+    }
+  );
+
+  res.json({
+    message: 'Login exitoso',
+    token,
+    user: usuario
+  });
 
 };
 
