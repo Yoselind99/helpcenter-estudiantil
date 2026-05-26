@@ -15,7 +15,15 @@ const usuarios = [
     email: 'user@test.com',
     password: 'password',
     rol: 'usuario'
-  }
+  },
+  {
+    id_usuario: 3,
+    nombre: 'Tecnico',
+    email: 'tecnico@test.com',
+    password: 'password',
+    rol: 'tecnico'
+}
+
 ];
 
 const login = async (req, res) => {
