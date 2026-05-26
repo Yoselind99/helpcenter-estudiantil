@@ -8,7 +8,10 @@ formLogin.addEventListener("submit", async (e) => {
 
     try {
 
-        const email = document.getElementById("email").value.trim();
+        const email = document.getElementById("email").value.trim().toLowerCase();
+
+console.log(email);
+console.log(password);
 
         const password = document.getElementById("password").value.trim();
 
