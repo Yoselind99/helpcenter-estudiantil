@@ -10,10 +10,10 @@ formLogin.addEventListener("submit", async (e) => {
 
         const email = document.getElementById("email").value.trim().toLowerCase();
 
-console.log(email);
-console.log(password);
-
         const password = document.getElementById("password").value.trim();
+
+        console.log(email);
+        console.log(password);
 
         const response = await fetch(API_LOGIN, {
 
@@ -36,23 +36,11 @@ console.log(password);
 
         if (response.ok) {
 
-            // ======================================
-            // GUARDAR TOKEN
-            // ======================================
-
             localStorage.setItem("token", result.token);
-
-            // ======================================
-            // GUARDAR ROL
-            // ======================================
 
             localStorage.setItem("rol", result.user.rol);
 
             alert("Login exitoso");
-
-            // ======================================
-            // REDIRECCIONAR SEGÚN ROL
-            // ======================================
 
             if (result.user.rol === "admin") {
 
@@ -73,6 +61,7 @@ console.log(password);
     } catch (error) {
 
         console.error("Error login:", error);
+        alert("Error en servidor");
 
     }
 
