@@ -348,7 +348,82 @@ async function cambiarEstado(id, estado) {
     }
 
 }
+// ======================================
+// CARGAR ESTADÍSTICAS
+// ======================================
 
+async function cargarEstadisticas() {
+
+    try {
+
+        // =========================
+        // TICKETS
+        // =========================
+
+        const response = await fetch(API_TICKETS, {
+
+            method: "GET",
+
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+
+        });
+
+        const result = await response.json();
+
+        ticketsGlobal = result.data;
+
+        document.getElementById("totalTickets")
+            .textContent = ticketsGlobal.length;
+
+        const alta = ticketsGlobal.filter(
+            t => t.prioridad === "alta"
+        );
+
+        document.getElementById("ticketsAlta")
+            .textContent = alta.length;
+
+        const abiertos = ticketsGlobal.filter(
+            t => t.estado === "abierto"
+        );
+
+        const cerrados = ticketsGlobal.filter(
+            t => t.estado === "cerrado"
+        );
+
+        document.getElementById("ticketsAbiertos")
+            .textContent = abiertos.length;
+
+        document.getElementById("ticketsCerrados")
+            .textContent = cerrados.length;
+
+        // =========================
+        // USUARIOS
+        // =========================
+
+        const responseUsers = await fetch(API_USERS, {
+
+            method: "GET",
+
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+
+        });
+
+        const resultUsers = await responseUsers.json();
+
+        document.getElementById("totalUsuarios")
+            .textContent = resultUsers.data.length;
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
 // ======================================
 // LOGOUT
 // ======================================
@@ -369,4 +444,4 @@ function logout() {
 // AUTO CARGAR
 // ======================================
 
-cargarUsuarios();
+cargarEstadisticas();
