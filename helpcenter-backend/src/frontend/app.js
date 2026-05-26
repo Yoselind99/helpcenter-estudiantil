@@ -19,15 +19,16 @@ const API_URL = "https://helpcenter-estudiantil.onrender.com/tickets";
 // ===============================
 
 async function cargarTickets() {
+
     const rol = localStorage.getItem("rol");
 
-if (rol !== "admin") {
+    if (rol !== "admin") {
 
-    alert("Acceso denegado");
+        alert("Acceso denegado");
 
-    return;
+        return;
 
-}
+    }
 
     try {
 
@@ -132,6 +133,7 @@ form.addEventListener("submit", async (e) => {
         });
 
         const result = await response.json();
+
         console.log(result);
 
         const mensaje =
@@ -145,8 +147,6 @@ form.addEventListener("submit", async (e) => {
             mensaje.style.color = "green";
 
             form.reset();
-
-            cargarTickets();
 
         } else {
 
@@ -180,4 +180,3 @@ function logout() {
     window.location.href = "login.html";
 
 }
-cargarTickets();

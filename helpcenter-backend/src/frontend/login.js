@@ -39,6 +39,8 @@ formLogin.addEventListener("submit", async (e) => {
             localStorage.setItem("token", result.token);
 
             localStorage.setItem("rol", result.user.rol);
+            console.log(result.user);
+console.log(result.user.rol);
 
             alert("Login exitoso");
 
