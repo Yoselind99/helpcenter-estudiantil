@@ -1,44 +1,39 @@
-const db = require('../config/db');
 const { ok } = require('../utils/response');
 
-// ✅ Estados válidos
+// ======================================
+// TICKETS TEMPORALES
+// ======================================
+
+let tickets = [
+
+    {
+        id: 1,
+        title: "Problema con plataforma",
+        description: "No puedo subir tareas",
+        estado: "abierto",
+        prioridad: "alta",
+        usuario_id: 2
+    }
+
+];
+
+// ======================================
+// ESTADOS VÁLIDOS
+// ======================================
+
 const estadosValidos = ['abierto', 'cerrado'];
 
 // ======================================
 // OBTENER TICKETS
 // ======================================
 
-const getTickets = (req, res, next) => {
+const getTickets = (req, res) => {
 
-    try {
-
-        const query = `
-            SELECT 
-                id,
-                title,
-                description,
-                estado,
-                prioridad
-            FROM tickets
-        `;
-
-        db.query(query, (err, results) => {
-
-            if (err) return next(err);
-
-            return ok(
-                res,
-                results,
-                'Tickets obtenidos correctamente'
-            );
-
-        });
-
-    } catch (error) {
-
-        next(error);
-
-    }
+    return ok(
+        res,
+        tickets,
+        'Tickets obtenidos correctamente'
+    );
 
 };
 
@@ -46,96 +41,72 @@ const getTickets = (req, res, next) => {
 // CREAR TICKET
 // ======================================
 
-const createTicket = (req, res, next) => {
+const createTicket = (req, res) => {
 
-    try {
+    const {
+        title,
+        description,
+        prioridad
+    } = req.body;
 
-        const {
-            title,
-            description,
-            prioridad
-        } = req.body;
+    const prioridadesValidas = [
+        'baja',
+        'media',
+        'alta'
+    ];
 
-        const prioridadesValidas = [
-            'baja',
-            'media',
-            'alta'
-        ];
+    if (!title || title.trim().length < 5) {
 
-        // ✅ Validar título
-        if (!title || title.trim().length < 5) {
-
-            return res.status(400).json({
-                error: 'El título debe tener mínimo 5 caracteres'
-            });
-
-        }
-
-        // ✅ Validar descripción
-        if (!description || description.trim().length < 10) {
-
-            return res.status(400).json({
-                error: 'La descripción debe tener mínimo 10 caracteres'
-            });
-
-        }
-
-        // ✅ Validar prioridad
-        if (
-            !prioridad ||
-            !prioridadesValidas.includes(prioridad)
-        ) {
-
-            return res.status(400).json({
-                error: 'Prioridad inválida'
-            });
-
-        }
-
-        const query = `
-            INSERT INTO tickets
-            (
-                title,
-                description,
-                estado,
-                usuario_id,
-                prioridad
-            )
-            VALUES (?, ?, 'abierto', ?, ?)
-        `;
-
-        db.query(
-
-            query,
-
-            [
-                title,
-                description,
-                req.user.id,
-                prioridad
-            ],
-
-            (err, result) => {
-
-                if (err) return next(err);
-
-                res.status(201).json({
-
-                    message: 'Ticket creado correctamente',
-
-                    id: result.insertId
-
-                });
-
-            }
-
-        );
-
-    } catch (error) {
-
-        next(error);
+        return res.status(400).json({
+            error: 'El título debe tener mínimo 5 caracteres'
+        });
 
     }
+
+    if (!description || description.trim().length < 10) {
+
+        return res.status(400).json({
+            error: 'La descripción debe tener mínimo 10 caracteres'
+        });
+
+    }
+
+    if (
+        !prioridad ||
+        !prioridadesValidas.includes(prioridad)
+    ) {
+
+        return res.status(400).json({
+            error: 'Prioridad inválida'
+        });
+
+    }
+
+    const nuevoTicket = {
+
+        id: tickets.length + 1,
+
+        title,
+
+        description,
+
+        estado: 'abierto',
+
+        prioridad,
+
+        usuario_id: req.user.id
+
+    };
+
+    tickets.push(nuevoTicket);
+
+    res.status(201).json({
+
+        message: 'Ticket creado correctamente',
+
+        ticket: nuevoTicket
+
+    });
 
 };
 
@@ -143,66 +114,33 @@ const createTicket = (req, res, next) => {
 // ACTUALIZAR TICKET
 // ======================================
 
-const updateTicket = (req, res, next) => {
+const updateTicket = (req, res) => {
 
-    try {
+    const { id } = req.params;
 
-        const { id } = req.params;
+    const {
+        title,
+        description
+    } = req.body;
 
-        const {
-            title,
-            description
-        } = req.body;
+    const ticket = tickets.find(
+        t => t.id == id
+    );
 
-        if (!title || !description) {
+    if (!ticket) {
 
-            return res.status(400).json({
-                error: 'Title y description son obligatorios'
-            });
-
-        }
-
-        const query = `
-            UPDATE tickets
-            SET title = ?, description = ?
-            WHERE id = ?
-        `;
-
-        db.query(
-
-            query,
-
-            [
-                title,
-                description,
-                id
-            ],
-
-            (err, result) => {
-
-                if (err) return next(err);
-
-                if (result.affectedRows === 0) {
-
-                    return res.status(404).json({
-                        error: 'Ticket no encontrado'
-                    });
-
-                }
-
-                res.json({
-                    message: 'Ticket actualizado correctamente'
-                });
-
-            }
-
-        );
-
-    } catch (error) {
-
-        next(error);
+        return res.status(404).json({
+            error: 'Ticket no encontrado'
+        });
 
     }
+
+    ticket.title = title;
+    ticket.description = description;
+
+    res.json({
+        message: 'Ticket actualizado correctamente'
+    });
 
 };
 
@@ -210,40 +148,17 @@ const updateTicket = (req, res, next) => {
 // ELIMINAR TICKET
 // ======================================
 
-const deleteTicket = (req, res, next) => {
+const deleteTicket = (req, res) => {
 
-    try {
+    const { id } = req.params;
 
-        const { id } = req.params;
+    tickets = tickets.filter(
+        t => t.id != id
+    );
 
-        const query = `
-            DELETE FROM tickets
-            WHERE id = ?
-        `;
-
-        db.query(query, [id], (err, result) => {
-
-            if (err) return next(err);
-
-            if (result.affectedRows === 0) {
-
-                return res.status(404).json({
-                    error: 'Ticket no encontrado'
-                });
-
-            }
-
-            res.json({
-                message: 'Ticket eliminado correctamente'
-            });
-
-        });
-
-    } catch (error) {
-
-        next(error);
-
-    }
+    res.json({
+        message: 'Ticket eliminado correctamente'
+    });
 
 };
 
@@ -251,55 +166,35 @@ const deleteTicket = (req, res, next) => {
 // CAMBIAR ESTADO
 // ======================================
 
-const cambiarEstado = (req, res, next) => {
+const cambiarEstado = (req, res) => {
 
-    try {
+    const { estado } = req.body;
 
-        const { estado } = req.body;
+    if (!estadosValidos.includes(estado)) {
 
-        if (!estadosValidos.includes(estado)) {
-
-            return res.status(400).json({
-                error: 'Estado inválido'
-            });
-
-        }
-
-        db.query(
-
-            `
-            UPDATE tickets
-            SET estado = ?
-            WHERE id = ?
-            `,
-
-            [estado, req.params.id],
-
-            (err, result) => {
-
-                if (err) return next(err);
-
-                if (result.affectedRows === 0) {
-
-                    return res.status(404).json({
-                        error: 'Ticket no encontrado'
-                    });
-
-                }
-
-                res.json({
-                    message: 'Estado actualizado'
-                });
-
-            }
-
-        );
-
-    } catch (error) {
-
-        next(error);
+        return res.status(400).json({
+            error: 'Estado inválido'
+        });
 
     }
+
+    const ticket = tickets.find(
+        t => t.id == req.params.id
+    );
+
+    if (!ticket) {
+
+        return res.status(404).json({
+            error: 'Ticket no encontrado'
+        });
+
+    }
+
+    ticket.estado = estado;
+
+    res.json({
+        message: 'Estado actualizado'
+    });
 
 };
 
