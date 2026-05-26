@@ -12,7 +12,7 @@ if (!token) {
 
 }
 
-const API_URL = " https://helpcenter-estudiantil.onrender.com";
+const API_URL = "https://helpcenter-estudiantil.onrender.com/tickets";
 
 // ===============================
 // CARGAR TICKETS
