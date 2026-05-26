@@ -3,6 +3,15 @@
 // ======================================
 
 const token = localStorage.getItem("token");
+const rol = localStorage.getItem("rol");
+
+if (rol !== "admin") {
+
+    alert("Acceso denegado");
+
+    window.location.href = "index.html";
+
+}
 
 if (!token) {
 
