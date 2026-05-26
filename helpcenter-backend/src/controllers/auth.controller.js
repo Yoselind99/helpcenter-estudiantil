@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 
 // Usuarios temporales
 const usuarios = [
@@ -7,14 +6,14 @@ const usuarios = [
     id_usuario: 1,
     nombre: 'Admin',
     email: 'admin@test.com',
-    password: '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+    password: 'password',
     rol: 'admin'
   },
   {
     id_usuario: 2,
     nombre: 'Usuario',
     email: 'user@test.com',
-    password: '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+    password: 'password',
     rol: 'usuario'
   }
 ];
@@ -31,10 +30,12 @@ const login = async (req, res) => {
     });
   }
 
- if (password !== usuario.password) {
+  if (password !== usuario.password) {
+
     return res.status(401).json({
       error: 'Contraseña incorrecta'
     });
+
   }
 
   const token = jwt.sign(
