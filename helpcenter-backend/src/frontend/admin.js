@@ -12,8 +12,8 @@ if (!token) {
 
 }
 
-const API_TICKETS = "http://localhost:3000/tickets";
-const API_USERS = "http://localhost:3000/users";
+const API_TICKETS = " https://helpcenter-estudiantil.onrender.com/tickets";
+const API_USERS = " https://helpcenter-estudiantil.onrender.com/users";
 
 // ======================================
 // VARIABLES

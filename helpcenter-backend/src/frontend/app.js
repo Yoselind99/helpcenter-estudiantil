@@ -12,7 +12,7 @@ if (!token) {
 
 }
 
-const API_URL = "http://localhost:3000/tickets";
+const API_URL = " https://helpcenter-estudiantil.onrender.com";
 
 // ===============================
 // CARGAR TICKETS
