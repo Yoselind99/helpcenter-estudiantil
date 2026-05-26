@@ -13,7 +13,43 @@ let tickets = [
         estado: "abierto",
         prioridad: "alta",
         usuario_id: 2
-    }
+    },
+
+    {
+    id: 2,
+    title: "Error al iniciar sesión",
+    description: "El sistema no deja entrar al portal",
+    estado: "abierto",
+    prioridad: "media",
+    usuario_id: 4
+},
+
+{
+    id: 3,
+    title: "Problema con contraseña",
+    description: "No puedo recuperar mi contraseña",
+    estado: "cerrado",
+    prioridad: "alta",
+    usuario_id: 5
+},
+
+{
+    id: 4,
+    title: "Falla en plataforma",
+    description: "La página tarda demasiado en cargar",
+    estado: "abierto",
+    prioridad: "baja",
+    usuario_id: 2
+},
+
+{
+    id: 5,
+    title: "Error en tareas",
+    description: "Las tareas no aparecen completas",
+    estado: "cerrado",
+    prioridad: "media",
+    usuario_id: 4
+}
 
 ];
 

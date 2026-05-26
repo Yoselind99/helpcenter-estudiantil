@@ -28,7 +28,31 @@ let usuarios = [
     email: 'soporte@test.com',
     password: 'password',
     rol: 'tecnico'
-  }
+  },
+
+  {
+  id_usuario: 4,
+  nombre: 'Maria Lopez',
+  email: 'maria@test.com',
+  password: 'password',
+  rol: 'usuario'
+},
+
+{
+  id_usuario: 5,
+  nombre: 'Carlos Perez',
+  email: 'carlos@test.com',
+  password: 'password',
+  rol: 'usuario'
+},
+
+{
+  id_usuario: 6,
+  nombre: 'Ana Torres',
+  email: 'ana@test.com',
+  password: 'password',
+  rol: 'tecnico'
+}
 
 ];
 
