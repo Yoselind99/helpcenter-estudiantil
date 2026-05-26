@@ -123,6 +123,7 @@ form.addEventListener("submit", async (e) => {
         });
 
         const result = await response.json();
+        console.log(result);
 
         const mensaje =
             document.getElementById("mensaje");
@@ -170,3 +171,4 @@ function logout() {
     window.location.href = "login.html";
 
 }
+cargarTickets();
