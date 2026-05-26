@@ -31,12 +31,7 @@ const login = async (req, res) => {
     });
   }
 
-  const passwordValida = await bcrypt.compare(
-    password,
-    usuario.password
-  );
-
-  if (!passwordValida) {
+ if (password !== usuario.password) {
     return res.status(401).json({
       error: 'Contraseña incorrecta'
     });
